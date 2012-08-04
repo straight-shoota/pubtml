@@ -1,7 +1,7 @@
 (function($){
-var PrinceX = {};
+var Pubtml = {};
 
-PrinceX.externalLinks = function(){
+Pubtml.externalLinks = function(){
   $("a").not("[href^='#']").not('sup a, .footnote a').replaceWith(function(){
     var $this = $(this);
     var link = '<a href="' + $this.attr('href') + '">' + $this.attr('href') + '</a>'
@@ -10,12 +10,12 @@ PrinceX.externalLinks = function(){
       title = $this.html();
     }
     title += ": ";
-    $this.append(PrinceX.makeFootnote(title + link));
+    $this.append(Pubtml.makeFootnote(title + link));
     return $this.html();
   });
   if(isPrince) Log.info('js: replaced external links with footnotes');
 }
-PrinceX.makeFootnote = function(content) {
+Pubtml.makeFootnote = function(content) {
   return $('<sup>' + content + '</sup>');
 }
 
@@ -30,8 +30,8 @@ $(document).ready(function(){
     }
   }
 
-  PrinceX.externalLinks();
+  Pubtml.externalLinks();
 });
-window.PrinceX = PrinceX;
+window.Pubtml = Pubtml;
 
 })(jQuery);
