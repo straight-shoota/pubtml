@@ -1,6 +1,14 @@
 require 'pubtml'
 require 'rake/clean'
 
+options = {
+  :paths => {
+    :style => 'style'
+  },
+  :scripts => ['lib/jquery-1.7.2', 'pubtml'],
+  :styles => ['pubtml']
+}
+
 FINAL = 'thesis.pdf'
 
 BUILD_DIR = 'build/'
@@ -13,42 +21,57 @@ def build relative_path = ""
   return File.join(BUILD_DIR, relative_path)
 end
 
-MARKDOWN = FileList['content/*.md']
-HTML = MARKDOWN.pathmap(BUILD_DIR + "%X.html")
+SASS = ['pubtml']
+SCRIPT = ['pubtml']
 
 task :default => :pdf
-task :content => HTML
-
-MARKDOWN.each do |src|
-  file build(src.pathmap("%X.html")) => src do |t|
-    Pubtml.markup t.prerequisites[0], t.name
-  end
-end
 
 directory build
-directory build("content")
 
-task :html => build(FINAL + '.html')
-file build(FINAL.ext('html')) => [build('skeleton.erb'), HTML] do |t|
-  Pubtml.pack t.prerequisites[0], t.name
+task :html => [build(FINAL.ext('html')), :style, :script]
+
+file build(FINAL.ext('html')) => build do |t|
+  Pubtml.pack 'skeleton.erb', t.name, options
 end
 
-task :skeleton => build('skeleton.erb')
+task :skeleton => 'skeleton.erb'
 
-file build('skeleton.erb') => build
-file build('skeleton.erb') do |t|
-  if File.exists? 'skeleton.erb'
-    cp 'skeleton.erb', t.name
-  else
-    File.open(t.name, "w") { |file| file.write(Pubtml.skeleton) }
+file 'skeleton.erb' => build
+file 'skeleton.erb' do |t|
+  if File.exists? t.name
+    cp Pubtml.file('skeleton.erb'), t.name
   end
 end
 
 task :pdf => FINAL
+task FINAL => :html
 file FINAL => build(FINAL.ext('html')) do |t|
-  Pubtml.prince t.prerequisites[0], t.name
+  Pubtml.prince build(FINAL.ext('html')), t.name
 end
 
-#sass = File.load(sass_file)
-#engine = Sass::Engine.new(sass)
-#css = engine.render
+task :style => build('style')
+directory build('style')
+
+task :style do
+  #SASS.each do |style|
+  #  Pubtml.sass style, build
+  #end
+  #system "compass compile --force"
+end
+
+directory build('script')
+task :script => build('script') do
+  SCRIPT.each do |script|
+    Pubtml.script script, build
+  end
+end
+
+desc "Compile to compressed css"
+task :compile_compressed do
+  #Go to the compass project directory
+  #Dir.chdir File.join( ENV['base_path'], CONF['dir']['compass'] ) do |dir|
+  #  file_compass_config = "/path/to/some/different/config.rb"
+#
+  #  system "compass compile -c #{file_compass_config} --force"
+  #end
+end
