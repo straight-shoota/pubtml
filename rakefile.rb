@@ -34,15 +34,6 @@ file build(FINAL.ext('html')) => build do |t|
   Pubtml.pack 'skeleton.erb', t.name, options
 end
 
-task :skeleton => 'skeleton.erb'
-
-file 'skeleton.erb' => build
-file 'skeleton.erb' do |t|
-  if File.exists? t.name
-    cp Pubtml.file('skeleton.erb'), t.name
-  end
-end
-
 task :pdf => FINAL
 task FINAL => :html
 file FINAL => build(FINAL.ext('html')) do |t|
