@@ -22,11 +22,14 @@ module Pubtml
     system call or puts $?
   end
 
-  def pack (source, target)
-    source = find(source)
-    puts "pack: #{source} => #{target}"
-    require 'pubtml/erb'
-    html = Pubtml::Template.renderTemplate source
+  def pack (base, target, options)
+    source = find(base)
+    puts "creating #{target} (based on #{base})..."
+    require 'pubtml/template'
+    template = Pubtml::Template.new options
+    html = ""
+    html = template.render source
+
     write html, target
   end
   def markup (source, target)

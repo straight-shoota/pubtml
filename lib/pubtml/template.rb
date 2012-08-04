@@ -1,39 +1,79 @@
 require "erb"
+
 module Pubtml
   class Template
-    css_path = '/build/style/'
-    js_path  = '/script/'
-    #content_path = '/content/'
+    @@default_options = {
+      :paths => {},
+      :scripts => [],
+      :styles => []
+    }
+    def initialize options = {}
+      @options = @@default_options.merge(options)
+      puts @options.inspect
+    end
 
     def import(glob)
       s = ""
       Dir.glob glob do |file|
         if File.directory? file
-          s += import file + "/*"
+          s += import(file + "/*")
         end
         if File.file? file
-          if DEBUG
-            s += "<!-- imported file: #{file} -->\n"
+          ext = File.extname(file)[1..-1]
+          case ext
+            when 'html' then s += load file
+            when 'erb' then s += render file
+            when 'md' then s += markdown file
+            else raise "unknown file extension #{ext}"
           end
-          s += renderTemplate file
         end
       end
       return s
     end
 
-    def css file
-      return css_path + file
+    def scripts
+      s = []
+      @options[:scripts].each do |script|
+        file = File.join(path(:script), script + ".js")
+        s << %{<script src="#{file}" type="text/javascript"></script>}
+      end
+      s.join "\n"
     end
-    def js file
-      return js_path + file
+    def styles
+      s = []
+      @options[:styles].each do |style|
+        file = File.join(path(:style), style + ".css")
+        s << %{<link rel="stylesheet" href="#{file}" type="text/css" />}
+      end
+      s.join "\n"
+    end
+    def lang
+      "de"
+    end
+    def path name
+      @options[:paths][name] || name.to_s
     end
 
-    def renderTemplate(file)
+
+    def render(file)
       puts "rendering #{file}...\n"
-      erb = ERB.new(File.read(file))
+
+      erb = ERB.new(load(file))
       erb.filename = file
+      #lang = "de"
       return erb.result binding
     end
-    module_function :renderTemplate
+    def load file
+      File.read(file)
+    end
+    def markdown file
+      call = "pandoc #{file} --to=html5"
+      puts call
+      result = ""
+      IO.popen(call, "w+") do |pipe|
+        result = pipe.gets(nil)
+      end
+      result
+    end
   end
 end
