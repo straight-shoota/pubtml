@@ -5,7 +5,7 @@ module Pubtml
     js_path  = '/script/'
     #content_path = '/content/'
 
-    def self.import(glob)
+    def import(glob)
       s = ""
       Dir.glob glob do |file|
         if File.directory? file
@@ -21,18 +21,19 @@ module Pubtml
       return s
     end
 
-    def selfcss file
+    def css file
       return css_path + file
     end
-    def self.js file
+    def js file
       return js_path + file
     end
 
-    def self.renderTemplate(file)
+    def renderTemplate(file)
       puts "rendering #{file}...\n"
       erb = ERB.new(File.read(file))
       erb.filename = file
       return erb.result binding
     end
+    module_function :renderTemplate
   end
 end
