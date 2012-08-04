@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- prince needs the old style charset definition -->
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script src="<%= js('lib/jquery-1.7.2.js') %>"></script>
+    <script src="<%= js('pubtml.js') %>"></script>
+    <link rel="stylesheet" href="<%= css('default.css') %>" type="text/css" />
+  </head>
+  <body>
+  <%= import '/build/content/*.html' %>
+  </body>
+</html>

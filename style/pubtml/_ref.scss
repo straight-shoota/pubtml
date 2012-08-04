@@ -1,0 +1,24 @@
+a {
+  @media print {
+    text-decoration: none;
+    color: inherit;
+
+    &[href^='#']::after {
+      content: leader(".") target-counter(attr(href), page);
+    }
+    /*&:not([href^='#'])::after{
+      @include footnote;
+      content: attr(title) ": " attr(href);
+    }*/
+  }
+
+  img {
+    border: none;
+  }
+}
+
+/*.footnote a:not([href^='#'])::after{
+  float: none;
+  content: " (" attr(href) ")";
+}
+*/

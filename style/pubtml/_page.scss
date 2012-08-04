@@ -1,0 +1,58 @@
+h1 {
+  string-set: header content();
+}
+
+@page {
+  size: A4 portrait;
+  margin: 2cm 5cm 2cm 2cm;
+
+  :right {
+    @top-right {
+      content: string(header, first);
+      font-family: $font-headline;
+    }
+  }
+  :left {
+    @bottom-left {
+      content: counter(page);
+      font-family: $font-headline;
+    }
+  }
+}
+
+html {
+  margin: 0;
+
+  @media screen {
+    background-color: #AAA;
+    @include background(linear-gradient(left, #BBB, #999, #BBB));
+    @include background(linear-gradient(left, #FFF, #EEE, #FFF));
+  }
+}
+
+body {
+  line-height: 1.5;
+  color: black;
+  background: none;
+  font-size: $font-size;
+  hyphens: auto;
+  text-align: left;
+  margin: 0;
+  padding: 0;
+  orphans: 1;
+  widows: 1;
+  font-family: $font-base;
+
+  @media screen {
+    width: 21cm;
+    margin: 2cm auto;
+    padding: 2cm;
+    font-size: $font-size-screen;
+    background-color: #FFF;
+    box-shadow: 0 0 3em #666;
+    box-shadow: 0 0 3em #CCC;
+    border: 1px solid #888888;
+    border: 1px solid #CCC;
+    font-family: $font-base-screen;
+  }
+}

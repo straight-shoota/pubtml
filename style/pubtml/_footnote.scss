@@ -1,0 +1,51 @@
+@mixin footnote($counter: footnote) {
+  counter-increment: $counter;
+  float: footnote;
+  font-family: $font-footnote;
+  footnote-style-position: inside;
+
+  &::footnote-call,
+  &::footnote-marker  {
+    font-size: 83%;
+    font-family: $font-footnote;
+    content: "[" counter($counter) "]";
+  }
+
+  &::footnote-call {
+    vertical-align: super;
+    line-height: none;
+  }
+  &::footnote-marker {
+    padding-right: .2em;
+    line-height: $line-height;
+    //footnote-style-position: inside;
+  }
+
+  a {
+    font-family: monospace;
+    hyphens: none;
+    font-size: 90%;
+    word-wrap: break-word;
+  }
+}
+
+sup, ref, .footnote {
+  @include footnote;
+  @media screen {
+    float: right;
+    $width: 20em;
+    $offset: 6em;
+    margin-right: - ($width + $offset);
+    width: $width;
+    margin-left: $offset;
+    word-wrap: break-word;
+  }
+}
+@page {
+  @footnotes {
+    border-top: solid $border-color thin;
+    border-clip: 100px 100px;
+    padding: 0.3em 0;
+    margin-top: 0.6em;
+  }
+}

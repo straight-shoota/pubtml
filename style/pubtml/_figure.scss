@@ -1,0 +1,6 @@
+figure {
+  figcaption::before {
+    counter-increment: figure;
+    content: t("Figure") " " counter(figure)": ";
+  }
+}

@@ -1,0 +1,52 @@
+// 3rd party imports
+@import "compass/typography";
+@import "compass/css3/images";
+
+// config
+@import "pubtml/defaults";
+
+// helper imports
+@import "pubtml/text";
+
+// style modules
+@import "pubtml/page";
+@import "pubtml/footnote";
+@import "pubtml/headline";
+@import "pubtml/toc";
+@import "pubtml/ref";
+@import "pubtml/figure";
+
+.chapter, .appendix {
+  page-break-after: always;
+}
+.titlepage {
+  page: blank;
+}
+
+title {
+  //string-set: title content();
+}
+
+p {
+  margin: $line-height 0;
+  text-align: justify;
+  hyphens: auto;
+
+  * {
+    text-align: left;
+  }
+}
+
+p + p {
+  text-indent: 1.5em;
+  @media print {
+    margin-top: -$line-height;
+  }
+  * {
+    text-indent: 0;
+  }
+}
+
+caption {
+  font-style: italic;
+}

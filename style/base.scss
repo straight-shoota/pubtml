@@ -1,0 +1,16 @@
+@font-face {
+  font-family: sans-serif;
+  src: local("Source Sans Pro");
+}
+@font-face {
+  font-family: serif;
+  src: local("Gentium Plus");
+}
+
+$font-base:  "Gentium Plus", "Garamond", serif;
+$font-headline: "Source Sans Pro", sans-serif;
+$font-mono: "Consolas", monospace;
+$font-footnote: "Source Sans Pro Light", "Source Sans Pro", sans-serif;
+
+@import "base";
+
