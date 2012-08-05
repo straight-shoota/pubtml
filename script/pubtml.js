@@ -1,37 +1,25 @@
-(function($){
-var Pubtml = {};
-
-Pubtml.externalLinks = function(){
-  $("a").not("[href^='#']").not('sup a, .footnote a').replaceWith(function(){
-    var $this = $(this);
-    var link = '<a href="' + $this.attr('href') + '">' + $this.attr('href') + '</a>'
-    var title = $this.attr('title');
-    if(title == undefined){
-      title = $this.html();
+var Pubtml = {
+  tasks: [],
+  initialize: function(){
+    console.log("initializing pubtml.js...");
+    $('body').addClass(this.PRINT ? 'print' : 'web');
+    for(name in this.tasks){
+      console.log("Calling task " + name)
+      this.tasks[name]()
     }
-    title += ": ";
-    $this.append(Pubtml.makeFootnote(title + link));
-    return $this.html();
-  });
-  if(isPrince) Log.info('js: replaced external links with footnotes');
-}
-Pubtml.makeFootnote = function(content) {
-  return $('<sup>' + content + '</sup>');
-}
+  },
+  isPrint: function(){
+    return window.Prince !== undefined;
+  },
+  task: function(name, handler){
+    //console.log("registered task " + name)
+    this.tasks[name] = handler;
+  }
+};
+
+Pubtml.PRINT = Pubtml.isPrint();
+Pubtml.WEB   = ! Pubtml.PRINT
 
 $(document).ready(function(){
-  var isPrince = window.Prince !== undefined;
-  $('body').addClass(isPrince ? 'prince print' : 'browser web');
-
-  if(isPrince){
-    for(i in Prince){
-      Log.info(i + ": ");
-      Log.info(Prince[i]);
-    }
-  }
-
-  Pubtml.externalLinks();
+  Pubtml.initialize()
 });
-window.Pubtml = Pubtml;
-
-})(jQuery);
