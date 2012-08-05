@@ -19,13 +19,7 @@ module Pubtml
           s += import(file + "/*")
         end
         if File.file? file
-          ext = File.extname(file)[1..-1]
-          case ext
-            when 'html' then s += load file
-            when 'erb' then s += render file
-            when 'md' then s += markdown file
-            else raise "unknown file extension #{ext}"
-          end
+          s << Pubtml::Markup.load(file)
         end
       end
       return s

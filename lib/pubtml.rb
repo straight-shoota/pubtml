@@ -1,5 +1,10 @@
 $:.unshift(File.dirname(__FILE__))
 
+require 'pubtml/document'
+require 'pubtml/template'
+require "pubtml/markup"
+require "pubtml/markup/pandoc"
+
 module Pubtml
   def project_directory
     Dir.pwd
@@ -16,6 +21,7 @@ module Pubtml
   def file_locations
     [project_directory, default_directory, base_directory]
   end
+
   def find file
     locations = file_locations()
     locations.each do |dir|
@@ -30,27 +36,27 @@ module Pubtml
     #puts "prince: #{source} => #{target}"
     #system "prince #{html_file} -o #{out} --javascript"
     prince = 'C:\Program Files (x86)\Prince\Engine\bin\prince.exe'
-    call = "\"#{prince}\" -o #{target} --javascript -v #{source}"
-    puts call
+    command = %{"#{prince}" -o "#{target}" --javascript -v "#{source}"}
 
-    system call or puts $?
+    Tool.exec command
   end
 
   def pack (base, target, options)
     source = find(base)
     puts "creating #{target} (based on #{base})..."
-    require 'pubtml/template'
     template = Pubtml::Template.new options
     html = ""
     html = template.render source
 
     write html, target
   end
+
   def markup (source, target)
     source = find(source)
     puts "markup: #{source} => #{target}"
-    call = "pandoc "
+    write Markup.load source, target
   end
+
   def sass file, dir
     require 'sass'
     source = "style/#{file}.scss"
@@ -62,12 +68,14 @@ module Pubtml
     mkdir_p File.dirname(target)
     cp source, target
   end
+
   def copy src, des
     des = File.join(des, src)
     require 'fileutils'
     mkdir_p File.dirname(des)
     cp find(src), des
   end
+
   def copy_script file, dir
     copy "script/#{file}.js", dir
   end
@@ -78,4 +86,15 @@ module Pubtml
 
   module_function :project_directory, :base_directory, :lib_directory, :default_directory, :prince, :pack, :markup, :file_locations, :find, :sass, :copy_script, :copy, :write
 
+  module Tool
+    def exec command, input = nil, read = true
+       mode = if input.nil? then "r" else "w+" end
+       puts "exec: #{command}"
+       IO.popen(command, mode) do |io|
+         io.puts(input) if not input.nil?
+         io.gets nil if read
+       end
+    end
+    module_function :exec
+  end
 end
