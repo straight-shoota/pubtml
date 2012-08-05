@@ -1,16 +1,30 @@
 $:.unshift(File.dirname(__FILE__))
 
 module Pubtml
+  def project_directory
+    Dir.pwd
+  end
+  def default_directory
+    File.expand_path(File.join(base_directory, 'project'))
+  end
   def base_directory
-    File.expand_path(File.join(File.dirname(__FILE__), '..'))
+    File.expand_path(File.join(lib_directory, '..'))
   end
   def lib_directory
     File.expand_path(File.join(File.dirname(__FILE__)))
   end
-
-  def skeleton
-    return '<html><head></head><body><%= import("sections") %></body></html>'
+  def file_locations
+    [project_directory, default_directory, base_directory]
   end
+  def find file
+    locations = file_locations()
+    locations.each do |dir|
+      path = File.join(dir, file)
+      return path if File.file?(path)
+    end
+    raise "could not find file #{file} in \n  #{locations.join("\n  ")}"
+  end
+
   def prince (source, target)
     source = find(source)
     #puts "prince: #{source} => #{target}"
@@ -37,18 +51,6 @@ module Pubtml
     puts "markup: #{source} => #{target}"
     call = "pandoc "
   end
-  def file name=""
-    File.expand_path(File.join(File.dirname(__FILE__), '..' , name))
-  end
-  def find file
-    if File.file? file
-      return file
-    end
-    if File.file? file(file)
-      return file(file)
-    end
-    raise "could not find file #{file}"
-  end
   def sass file, dir
     require 'sass'
     source = "style/#{file}.scss"
@@ -71,6 +73,6 @@ module Pubtml
     File.open(file, "w") do |f| f.write(string) end
   end
 
-  module_function :base_directory, :lib_directory, :skeleton, :prince, :pack, :markup, :file, :find, :sass, :script, :write
+  module_function :project_directory, :base_directory, :lib_directory, :prince, :pack, :markup, :file_locations, :find, :sass, :script, :write
 
 end
