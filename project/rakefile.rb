@@ -23,7 +23,7 @@ def build relative_path = ""
   return File.join(BUILD_DIR, relative_path)
 end
 
-task :default => :pdf
+task :default => [:clean, :pdf]
 
 directory build
 
