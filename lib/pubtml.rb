@@ -59,20 +59,23 @@ module Pubtml
     #engine = Sass::Engine.new(File.read(source))
     #write engine.render, target
     require 'fileutils'
+    mkdir_p File.dirname(target)
     cp source, target
   end
-  def script file, dir
-    source = "script/#{file}.js"
-    target = File.join(dir, source)
-    source = find(source)
+  def copy src, des
+    des = File.join(des, src)
     require 'fileutils'
-    cp source, target
+    mkdir_p File.dirname(des)
+    cp find(src), des
+  end
+  def copy_script file, dir
+    copy "script/#{file}.js", dir
   end
 
   def write string, file
     File.open(file, "w") do |f| f.write(string) end
   end
 
-  module_function :project_directory, :base_directory, :lib_directory, :prince, :pack, :markup, :file_locations, :find, :sass, :script, :write
+  module_function :project_directory, :base_directory, :lib_directory, :default_directory, :prince, :pack, :markup, :file_locations, :find, :sass, :copy_script, :copy, :write
 
 end

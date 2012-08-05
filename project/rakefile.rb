@@ -1,15 +1,17 @@
 require 'pubtml'
 require 'rake/clean'
 
+PUBTML_RAKE_FILE = __FILE__
+
 options = {
   :paths => {
     :style => 'style'
   },
-  :scripts => ['lib/jquery-1.7.2', 'pubtml'],
+  :scripts => ['lib/jquery-1.7.2', 'lib/outliner', 'pubtml', 'pubtml/footnote', 'pubtml/toc'],
   :styles => ['pubtml']
 }
 
-FINAL = 'thesis.pdf'
+FINAL = 'out.pdf'
 
 BUILD_DIR = 'build/'
 
@@ -20,9 +22,6 @@ def build relative_path = ""
   # avoids duplicating the build location in the build file
   return File.join(BUILD_DIR, relative_path)
 end
-
-SASS = ['pubtml']
-SCRIPT = ['pubtml']
 
 task :default => :pdf
 
@@ -52,8 +51,8 @@ end
 
 directory build('script')
 task :script => build('script') do
-  SCRIPT.each do |script|
-    Pubtml.script script, build
+  options[:scripts].each do |script|
+    Pubtml.copy_script script, build
   end
 end
 
