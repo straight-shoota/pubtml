@@ -5,42 +5,30 @@ PUBTML_RAKE_FILE = __FILE__
 
 options = {
   :paths => {
-    :style => 'style'
+    :style => 'style',
   },
-  :scripts => ['lib/jquery-1.7.2', 'lib/outliner', 'pubtml', 'pubtml/footnote', 'pubtml/toc'],
-  :styles => ['pubtml']
+  :script => ['lib/jquery-1.7.2', 'lib/outliner', 'pubtml', 'pubtml/footnote', 'pubtml/toc'],
+  :style => ['pubtml'],
+  :html => 'out.html',
+  :pdf => 'out.pdf',
+  :build => 'build',
+  :skeleton => 'skeleton.erb'
 }
 
-FINAL = 'out.pdf'
+CLEAN.include(options[:build])
+CLOBBER.include(options[:pdf])
 
-BUILD_DIR = 'build/'
-
-CLEAN.include(BUILD_DIR)
-CLOBBER.include(FINAL)
-
-def build relative_path = ""
-  # avoids duplicating the build location in the build file
-  return File.join(BUILD_DIR, relative_path)
-end
+document = Pubtml::Document.new options
 
 task :default => [:clean, :pdf]
 
-directory build
-
-task :html => [build(FINAL.ext('html')), :style, :script]
-
-file build(FINAL.ext('html')) => build do |t|
-  Pubtml.pack 'skeleton.erb', t.name, options
+task :html => [:style, :script] do |t|
+  document.pack
 end
 
-task :pdf => FINAL
-task FINAL => :html
-file FINAL => build(FINAL.ext('html')) do |t|
-  Pubtml.prince build(FINAL.ext('html')), t.name
+task :pdf  => :html do |t|
+  document.prince
 end
-
-task :style => build('style')
-directory build('style')
 
 task :style do
   #SASS.each do |style|
@@ -49,11 +37,8 @@ task :style do
   #system "compass compile --force"
 end
 
-directory build('script')
-task :script => build('script') do
-  options[:scripts].each do |script|
-    Pubtml.copy_script script, build
-  end
+task :script do
+  document.copy_scripts
 end
 
 desc "Compile to compressed css"
