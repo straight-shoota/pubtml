@@ -40,12 +40,15 @@ module Pubtml
     end
 
     @@handlers = []
+    @@default_handler = Plain.new
     def load file
       #puts "loading #{file}"
       @@handlers.each do |handler|
         return handler.process file if handler.supports? file
       end
-      raise 'could not load file #{file}'
+      return @@default_handler.process file if @@default_handler.supports? file
+
+      raise "could not load file #{file}"
     end
 
     def register handler

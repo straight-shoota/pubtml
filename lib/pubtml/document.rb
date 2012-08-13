@@ -1,45 +1,108 @@
+require 'uri'
+
+
 module Pubtml
-  class Document
-    attr_reader :options
-
-    def initialize(options)
-      @options = options
+  class Data
+    def initialize(data={})
+      @data = {}
+      merge!(data)
     end
 
-    def project_directory
-      Dir.pwd
-    end
-    def default_directory
-      File.expand_path(File.join(base_directory, 'project'))
-    end
-    def base_directory
-      File.expand_path(File.join(lib_directory, '..'))
-    end
-    def lib_directory
-      File.expand_path(File.join(File.dirname(__FILE__), '..'))
-    end
-    def file_locations
-      [project_directory, default_directory, base_directory]
-    end
-    def build_directory
-      File.expand_path(File.join(project_directory, "build"))
-    end
-
-    def find file
-      locations = file_locations()
-      locations.each do |dir|
-        path = File.join(dir, file)
-        return path if File.file?(path)
+    def merge!(data)
+      data.each do |key, value|
+        self[key.to_sym] = value
       end
-      raise "could not find file #{file} in \n  #{locations.join("\n  ")}"
     end
 
-    def copy_scripts
-      options[:script].each do |script|
-        file = "script/#{script}.js"
-        Tool.copy find(file), File.join(build_directory, file)
+    def [](key)
+      @data[key.to_sym]
+    end
+
+    def []=(key, value)
+      if value.class == Hash
+        @data[key.to_sym] = Data.new(value)
+      else
+        @data[key.to_sym] = value
+      end
+    end
+
+    def each &block
+      @data.each &block
+    end
+
+    def method_missing(sym, *args)
+      if sym.to_s =~ /(.+)=$/
+        self[$1] = args.first
+      else
+        self[sym]
       end
     end
   end
 
+  class Document < Pubtml::Data
+    attr_reader :options, :asset_types
+
+    def initialize options={}
+      super defaults
+      merge! options
+    end
+
+    def defaults
+      @asset_types = {
+        :scripts  => {
+          :ext  => 'js',
+          :dir  => 'scripts',
+          :html => %{<script src="!file" type="text/javascript"></script>}
+        },
+        :styles   => {
+          :ext  => 'css',
+          :dir  => 'styles',
+          :html => %{<link rel="stylesheet" href="!file" type="text/css" />}
+        }
+      }
+
+      {
+        :title          => 'Pubtml',
+        :language       => 'en',
+        :default_build  => 'html',
+        :project_path   => Dir.pwd,
+        :default_project_path => File.expand_path('../../../project', __FILE__),
+        :build_path     => 'build',
+        :skeleton       => 'skeleton.erb',
+        :assets         => {
+          :scripts  => ['pubtml'],
+          :styles   => ['pubtml']
+        },
+        :princexml      => {
+          :executable   => 'prince'
+        }
+      }
+    end
+    def file_locations
+      [self[:project_path], self[:default_project_path]]
+    end
+    def asset asset, type
+      file = asset + '.' + @asset_types[type][:ext]
+      if not URI(file).absolute? then
+        file = File.join(@asset_types[type][:dir], file)
+      end
+      file
+    end
+
+    def name
+      name = self[:name]
+      name = self[:title] if name.nil?
+      name = 'build' if name.nil?
+      name.downcase.gsub(/[^A-z0-9\-_\.]/, '-').gsub(/-{2,}/, '-')
+    end
+
+    def find_file file
+      locations = file_locations
+      locations.each do |dir|
+        path = File.join(dir, file)
+        return path if File.file?(path)
+      end
+      raise "could not find file #{file} in #{locations.join(", ")}"
+    end
+  end
 end

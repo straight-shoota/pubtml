@@ -9,7 +9,10 @@ module Pubtml
       end
       def process file
         command = "pandoc #{file}"
-        Tool.exec command
+        e = IO.popen(command, 'r') do |io|
+          io.gets nil
+        end
+        e
       end
     end
     register Pandoc.new()
