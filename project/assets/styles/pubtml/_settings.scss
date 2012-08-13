@@ -2,11 +2,14 @@
 $border-color: #ddd !default;
 
 // font
-$font-size: 12pt !default;
+$font-size: 11pt !default;
 $font-size-screen: 20px !default;
+$font-size-mono: 10pt !default;
+$font-size-mono-screen: 17px !default;
 $line-height: 1.5em !default;
 $font-base: serif !default;
 $font-base-screen: $font-base !default;
 $font-mono: monospace !default;
 $font-headline: $font-base !default;
 $font-footnote: $font-headline !default;
+$language: 'en' !default;

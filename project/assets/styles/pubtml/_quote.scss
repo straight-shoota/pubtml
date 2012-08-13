@@ -1,0 +1,14 @@
+blockquote {
+  font-style: italic;
+  margin: 1.5em 2em;
+  /*p:last-child {
+    margin-bottom: 0;
+  }*/
+  footer {
+    color: #999999;
+    margin-top: -1.3em;
+    &::before {
+      content: "— ";
+    }
+  }
+}

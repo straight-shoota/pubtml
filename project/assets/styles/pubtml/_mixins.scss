@@ -1,0 +1,6 @@
+@mixin hyphens($val){
+  -webkit-hyphens: $val;
+  -moz-hyphens: $val;
+  -ms-hyphens: $val;
+  hyphens: $val;
+}

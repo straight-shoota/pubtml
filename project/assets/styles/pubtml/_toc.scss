@@ -1,0 +1,79 @@
+ol.toc {
+  counter-reset: tocheadertwo tocheaderthree tocheaderfour tocappendix;
+
+  & > li {
+    font-weight: bold;
+    margin-bottom: .5em;
+    page-break-after: avoid;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    &::after {
+      content: leader(". ") target-counter(attr(href), page);
+      font-style: normal;
+    }
+    &[data-section-number]::before {
+      content: attr(data-section-number) ". ";
+    }
+  }
+
+  &, ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  ol {
+    margin-left: 1em;
+    font-weight: normal;
+  }
+
+  /*& > li {
+    counter-reset: tocheaderthree, tocheaderfour;
+    &::before {
+      /*content: counters(item, ".") ".  ";*
+      counter-increment: tocheadertwo;
+      content: counter(tocheadertwo) ". ";
+    }
+    &.nonumber::before {
+      counter-increment: tocheadertwo 0;
+      content: "";
+    }
+    ol > li {
+      counter-reset: tocheaderfour;
+      &::before {
+        counter-increment: tocheaderthree;
+        content: counter(tocheadertwo) "." counter(tocheaderthree) ". ";
+      }
+      ol > li {
+        &::before{
+          counter-increment: tocheaderfour;
+          content: counter(tocheadertwo) "." counter(tocheaderthree) "." counter(tocheaderfour) ". ";
+        }
+
+        li {
+          margin-left: 3ex; /* Make up for no section numbers *
+          &::before{
+            content: "";
+          }
+        }
+      }
+    }
+    &.appendix {
+      &::before {
+        counter-increment: tocappendix;
+        content: "A" counter(tocappendix) ". ";
+      }
+      ol > li::before {
+        content: "A" counter(tocappendix) "." counter(tocheaderthree) ". ";
+      }
+    }
+  }*/
+}
+
+h1, h2, h3, h4, h5, h6 {
+  &[data-section-number]::before {
+    content: attr(data-section-number) ". ";
+  }
+}

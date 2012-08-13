@@ -5,20 +5,20 @@ h1 {
 @page {
   size: A4 portrait;
   margin: 2cm 5cm 2cm 2cm;
-
-  :right {
+}
+  @page:right {
     @top-right {
       content: string(header, first);
       font-family: $font-headline;
     }
   }
-  :left {
+  @page:left {
     @bottom-left {
       content: counter(page);
       font-family: $font-headline;
     }
   }
-}
+
 
 html {
   margin: 0;
@@ -35,13 +35,14 @@ body {
   color: black;
   background: none;
   font-size: $font-size;
-  hyphens: auto;
+  @include hyphens(auto);
   text-align: left;
   margin: 0;
   padding: 0;
   orphans: 1;
   widows: 1;
   font-family: $font-base;
+  text-rendering: optimizeLegibility;
 
   @media screen {
     width: 21cm;
@@ -55,4 +56,39 @@ body {
     border: 1px solid #CCC;
     font-family: $font-base-screen;
   }
+}
+
+.titlepage,
+#toc {
+  page-break-after: always;
+  page-break-before: always;
+}
+
+.titlepage {
+  page: blank;
+  h1, h2, h3, h4, h5, h6 {
+    text-align: center;
+  }
+  hgroup {
+    &, > p {
+      text-align: center;
+    }
+    margin-bottom: 2em;
+  }
+  p {
+    font-size: 1.4em;
+  }
+  @media screen {
+    padding-bottom: 5em;
+  }
+}
+
+@page blank :left {
+  @top-left { content: normal }
+  @bottom-left { content: normal }
+}
+
+@page blank :right {
+  @top-right { content: normal }
+  @bottom-right { content: normal }
 }

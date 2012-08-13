@@ -1,15 +1,27 @@
 <!DOCTYPE html>
-<html lang="<%=lang%>">
+<html lang="<%=@doc[:language]%>">
   <head>
-    <title></title>
+    <title><%=@doc[:title]%></title>
     <meta charset="UTF-8" />
+    <meta name="generator" content="pubtml" />
     <%# prince needs the old style charset definition %>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 
     <%= styles %>
   </head>
-  <body>
-  <%= import 'content/*' %>
+  <body class="language-markup">
+
+  <section class="titlepage">
+    <hgroup>
+      <h1><%= @doc.title %></h1>
+    </hgroup>
+  </section>
+
+  <div id="toc">
+    <h2 class="notoc">Table of Contents</h2>
+  </div>
+
+  <%= import '' %>
 
   <%= scripts %>
   </body>

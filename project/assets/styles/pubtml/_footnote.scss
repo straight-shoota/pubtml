@@ -1,8 +1,17 @@
+@mixin footnote-link {
+  font-family: monospace;
+  @include hyphens(none);
+  font-size: .8em;
+  word-wrap: break-word;
+  word-break: break-all; // shouldn't be necessary, but chrome requires this to be set too
+}
 @mixin footnote($counter: footnote) {
   counter-increment: $counter;
   float: footnote;
   font-family: $font-footnote;
   footnote-style-position: inside;
+  font-style: normal;
+  font-size: .8em;
 
   &::footnote-call,
   &::footnote-marker  {
@@ -22,11 +31,11 @@
   }
 
   a {
-    font-family: monospace;
-    hyphens: none;
-    font-size: 90%;
-    word-wrap: break-word;
+    @include footnote-link;
   }
+}
+a.here {
+  @include footnote-link;
 }
 
 sup, ref, .footnote {

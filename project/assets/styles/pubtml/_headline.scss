@@ -1,0 +1,60 @@
+h1, h2, h3, h4, h5, h6 {
+  page-break-after: avoid;
+  text-align: left;
+  font-family: $font-headline;
+  line-height: 1.2em;
+  margin: 1.5em 0 .5em;
+}
+h1 {
+  font-size: 2em;
+}
+h2 {
+  font-size: 1.5em;
+}
+h3, h4, h5, h6 {
+  font-size: 1.25em;
+}
+/*
+html {
+  counter-reset: headerone;
+}
+h1{
+  counter-reset: headertwo;
+  &::before{
+    counter-increment: headerone;
+  }
+}*/
+/*
+body {
+  counter-reset: headertwo;
+}
+h2 {
+  counter-reset: headerthree;
+  &::before {
+    counter-increment: headertwo;
+    content: counter(headertwo) ". ";
+  }
+}
+  /*&.nonumber, &.notoc{
+    &::before {
+      counter-increment: headertwo 0;
+      content: "" !important;
+    }
+  }*/
+//}
+/*
+h3 {
+  //counter-reset: headerfour;
+  /*&::before {
+    counter-increment: headerthree;
+    //content: string(sectionstr) counter(headerthree) ". ";
+    /*content: counter(headertwo) "." counter(headerthree) ". ";
+  }
+}
+/*h4 {
+  &::before {
+    counter-increment: headerfour;
+    content: counter(headertwo) "." counter(headerthree) "." counter(headerfour) ". ";
+  }
+}
+*/

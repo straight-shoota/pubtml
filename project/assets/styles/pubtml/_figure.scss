@@ -1,0 +1,35 @@
+body {
+  counter-reset: figure example table;
+}
+figure, .figure {
+  margin: 1em 0;
+  display: block;
+  counter-increment: figure;
+  page-break-inside: avoid;
+  /*text-align: center;
+
+  * {
+    text-align: left;
+  }*/
+
+  figcaption, .figcaption {
+    text-align:center;
+    font-size: .9em;
+    margin: 0 2em;
+
+    &::before {
+      content: t("Figure") " " counter(figure)": ";
+      font-weight: bold;
+    }
+  }
+  &.example {
+    figcaption::before{
+      content: t("Example") " " counter(example)": ";
+    }
+  }
+  &.table {
+    figcaption::before{
+      content: t("Table") " " counter(table)": ";
+    }
+  }
+}

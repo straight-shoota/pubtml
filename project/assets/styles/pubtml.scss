@@ -3,18 +3,21 @@
 @import "compass/css3/images";
 
 // config
-@import "pubtml/defaults";
+@import "pubtml/settings";
 
 // helper imports
+@import "pubtml/mixins";
 @import "pubtml/text";
 
 // style modules
-@import "pubtml/page";
+@import "pubtml/code";
+@import "pubtml/figure";
 @import "pubtml/footnote";
 @import "pubtml/headline";
-@import "pubtml/toc";
+@import "pubtml/page";
+@import "pubtml/quote";
 @import "pubtml/ref";
-@import "pubtml/figure";
+@import "pubtml/toc";
 
 .chapter, .appendix {
   page-break-after: always;
@@ -28,9 +31,17 @@ title {
 }
 
 p {
-  margin: $line-height 0;
+  margin: 0;
+  margin-bottom: $line-height;
   text-align: justify;
-  hyphens: auto;
+  @include hyphens(auto);
+  -webkit-hyphenate-character: '-';
+  -webkit-locale: $language;
+
+  /* The minimum number of lines that must be left at the bottom of a page */
+  orphans: 5;
+  /* The minimum number of lines that muse be left at the top of a page */
+  widows: 5;
 
   * {
     text-align: left;
@@ -39,8 +50,9 @@ p {
 
 p + p {
   text-indent: 1.5em;
+  margin-top: -$line-height;
+
   @media print {
-    margin-top: -$line-height;
   }
   * {
     text-indent: 0;

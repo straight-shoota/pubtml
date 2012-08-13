@@ -1,0 +1,7 @@
+@function t($t) {
+  @return $t;
+}
+
+:lang(de){
+  quotes: "„" "”" "‚", "’";
+}
