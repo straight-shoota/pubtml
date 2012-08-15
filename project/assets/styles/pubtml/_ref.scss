@@ -5,7 +5,7 @@ a {
     color: inherit;
 
     &[href^='#']::after {
-      content: "(" t("page") " " target-counter(attr(href), page) ")";
+      content: " (" t("page") " " target-counter(attr(href), page) ")";
     }
     &.pageref::after {
       content: " " t("on page") " " target-counter(attr(href), page);
