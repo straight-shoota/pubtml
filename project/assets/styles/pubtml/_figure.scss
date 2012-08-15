@@ -2,7 +2,7 @@ body {
   counter-reset: figure example table;
 }
 figure, .figure {
-  margin: 1em 0;
+  margin: 1rem 0;
   display: block;
   counter-increment: figure;
   page-break-inside: avoid;
@@ -14,8 +14,8 @@ figure, .figure {
 
   figcaption, .figcaption {
     text-align:center;
-    font-size: .9em;
-    margin: 0 2em;
+    font-size: .9rem;
+    margin: 0 2rem;
 
     &::before {
       content: t("Figure") " " counter(figure)": ";

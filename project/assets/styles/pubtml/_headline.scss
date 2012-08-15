@@ -2,17 +2,17 @@ h1, h2, h3, h4, h5, h6 {
   page-break-after: avoid;
   text-align: left;
   font-family: $font-headline;
-  line-height: 1.2em;
-  margin: 1.5em 0 .5em;
+  line-height: 1.2rem;
+  margin: 1.5rem 0 .5rem;
 }
 h1 {
-  font-size: 2em;
+  font-size: 2rem;
 }
 h2 {
-  font-size: 1.5em;
+  font-size: 1.5rem;
 }
 h3, h4, h5, h6 {
-  font-size: 1.25em;
+  font-size: 1.25rem;
 }
 /*
 html {

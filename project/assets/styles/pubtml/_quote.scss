@@ -1,12 +1,12 @@
 blockquote {
   font-style: italic;
-  margin: 1.5em 2em;
+  margin: 1.5rem 2rem;
   /*p:last-child {
     margin-bottom: 0;
   }*/
   footer {
     color: #999999;
-    margin-top: -1.3em;
+    margin-top: -1.3rem;
     &::before {
       content: "— ";
     }

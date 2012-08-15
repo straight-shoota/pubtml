@@ -7,19 +7,19 @@ code, tt, pre {
   font-family: $font-mono;
   //line-height: 1.4;
   border: 1px solid #dedede;
-  padding: .1em .2em;
+  padding: .1rem .2rem;
 
-  border-radius: .2em;
+  border-radius: .2rem;
 }
 code, tt {
 }
 
 pre {
   overflow: auto;
-  padding: .3em;
+  padding: .3rem;
   margin: 1ex 0;
   text-align: left;
-  border-radius: .2em;
+  border-radius: .2rem;
   &, &[class*="language-"] {
     white-space: pre-wrap;
   }

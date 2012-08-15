@@ -28,9 +28,7 @@ html {
     @include background(linear-gradient(left, #BBB, #999, #BBB));
     @include background(linear-gradient(left, #FFF, #EEE, #FFF));
   }
-}
 
-body {
   line-height: 1.5;
   color: black;
   background: none;
@@ -45,16 +43,21 @@ body {
   text-rendering: optimizeLegibility;
 
   @media screen {
+    font-size: $font-size-screen;
+    font-family: $font-base-screen;
+  }
+}
+
+body {
+  @media screen {
     width: 21cm;
     margin: 2cm auto;
     padding: 2cm;
-    font-size: $font-size-screen;
     background-color: #FFF;
-    box-shadow: 0 0 3em #666;
-    box-shadow: 0 0 3em #CCC;
+    box-shadow: 0 0 3rem #666;
+    box-shadow: 0 0 3rem #CCC;
     border: 1px solid #888888;
     border: 1px solid #CCC;
-    font-family: $font-base-screen;
   }
 }
 
@@ -73,13 +76,13 @@ body {
     &, > p {
       text-align: center;
     }
-    margin-bottom: 2em;
+    margin-bottom: 2rem;
   }
   p {
-    font-size: 1.4em;
+    font-size: 1.4rem;
   }
   @media screen {
-    padding-bottom: 5em;
+    padding-bottom: 5rem;
   }
 }
 

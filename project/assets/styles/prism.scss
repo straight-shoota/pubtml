@@ -13,11 +13,11 @@ pre[class*="language-"] {
 	text-align: left;
 	white-space: pre;
 	word-spacing: normal;
-	
+
 	-moz-tab-size: 4;
 	-o-tab-size: 4;
 	tab-size: 4;
-	
+
 	-webkit-hyphens: none;
 	-moz-hyphens: none;
 	-ms-hyphens: none;
@@ -26,9 +26,9 @@ pre[class*="language-"] {
 
 /* Code blocks */
 pre[class*="language-"] {
-	padding: 1em;
-	margin: .5em 0;
-	overflow: auto;	
+	padding: 1rem;
+	margin: .5rem 0;
+	overflow: auto;
 }
 
 :not(pre) > code[class*="language-"],
@@ -38,8 +38,8 @@ pre[class*="language-"] {
 
 /* Inline code */
 :not(pre) > code[class*="language-"] {
-	padding: .1em;
-	border-radius: .3em;
+	padding: .1rem;
+	border-radius: .3rem;
 }
 
 .token.comment,
@@ -100,7 +100,7 @@ pre[class*="language-"] {
 }
 pre[data-line] {
 	position: relative;
-	padding: 1em 0 1em 3em;
+	padding: 1rem 0 1rem 3rem;
 }
 
 .line-highlight {
@@ -108,16 +108,16 @@ pre[data-line] {
 	left: 0;
 	right: 0;
 	padding: inherit 0;
-	margin-top: 1em; /* Same as .prism’s padding-top */
+	margin-top: 1rem; /* Same as .prism’s padding-top */
 
 	background: hsla(24, 20%, 50%,.08);
 	background: -moz-linear-gradient(left, hsla(24, 20%, 50%,.1) 70%, hsla(24, 20%, 50%,0));
 	background: -webkit-linear-gradient(left, hsla(24, 20%, 50%,.1) 70%, hsla(24, 20%, 50%,0));
 	background: -o-linear-gradient(left, hsla(24, 20%, 50%,.1) 70%, hsla(24, 20%, 50%,0));
 	background: linear-gradient(left, hsla(24, 20%, 50%,.1) 70%, hsla(24, 20%, 50%,0));
-	
+
 	pointer-events: none;
-	
+
 	line-height: inherit;
 	white-space: pre;
 }
@@ -126,24 +126,24 @@ pre[data-line] {
 	.line-highlight[data-end]:after {
 		content: attr(data-start);
 		position: absolute;
-		top: .4em;
-		left: .6em;
-		min-width: 1em;
-		padding: 0 .5em;
+		top: .4rem;
+		left: .6rem;
+		min-width: 1rem;
+		padding: 0 .5rem;
 		background-color: hsla(24, 20%, 50%,.4);
 		color: hsl(24, 20%, 95%);
 		font: bold 65%/1.5 sans-serif;
 		text-align: center;
-		vertical-align: .3em;
+		vertical-align: .3rem;
 		border-radius: 999px;
 		text-shadow: none;
 		box-shadow: 0 1px white;
 	}
-	
+
 	.line-highlight[data-end]:after {
 		content: attr(data-end);
 		top: auto;
-		bottom: .4em;
+		bottom: .4rem;
 	}
 .token.tab:not(:empty):before,
 .token.cr:before,
