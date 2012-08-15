@@ -54,6 +54,8 @@ sup, ref, .footnote {
     width: $width;
     margin-left: $offset;
     word-wrap: break-word;
+    clear: right;
+    border-top: 2px solid #EEE;
   }
 }
 @page {
