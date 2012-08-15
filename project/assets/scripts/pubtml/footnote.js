@@ -15,7 +15,7 @@ Pubtml.Footnote = {
       if(title == undefined){
         title = $this.html();
       }
-      if ($this.hasClass('here') || title == href || new RegExp("(([a-z]+:)?\/\/)?"+title).exec(href)){
+      if ($this.hasClass('here') || $this.text() == href || new RegExp("(([a-z]+:)?\/\/)?"+$this.text()).exec(href)){
         // this link shall be shown in the text
         $this.addClass('here');
         return;

@@ -1,15 +1,21 @@
 @mixin footnote-link {
-  font-family: monospace;
-  @include hyphens(none);
-  font-size: .8em;
-  word-wrap: break-word;
-  word-break: break-all; // shouldn't be necessary, but chrome requires this to be set too
+  &:not(.here)::after, &.here {
+    font-size: .9em;
+    @include hyphens(none);
+    font-family: monospace;
+    word-wrap: break-word;
+    word-break: break-all; // shouldn't be necessary, but chrome requires this to be set too
+  }
+  &:not(.here)::after {
+    content: " [" attr(href) "]";
+    font-size: .8em;
+  }
 }
 @mixin footnote($counter: footnote) {
   counter-increment: $counter;
   float: footnote;
   font-family: $font-footnote;
-  footnote-style-position: inside;
+  footnote-style-position: outside;
   font-style: normal;
   font-size: .8em;
 
