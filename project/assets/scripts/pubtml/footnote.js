@@ -7,18 +7,21 @@
 
 Pubtml.Footnote = {
   externalLinks: function(){
-    $("a").not("[href^='#']").not('sup a, .footnote a').each(function(){
+    $('a:not([href^="#"]):not(.here)').not('sup a, .footnote a').each(function(){
       var $this = $(this);
       var href = $this.attr('href');
-      var link = '<a href="' + href + '">' + href + '</a>'
-      var title = $this.attr('title');
-      if(title == undefined){
-        title = $this.html();
-      }
-      if ($this.hasClass('here') || $this.text() == href || new RegExp("(([a-z]+:)?\/\/)?"+$this.text()).exec(href)){
+
+      if ($this.text() == href
+        || new RegExp("((https?:)?\/\/)?"+$this.text()).exec(href)){
         // this link shall be shown in the text
         $this.addClass('here');
         return;
+      }
+
+      var link = '<a href="' + href + '" class="here">' + href + '</a>'
+      var title = $this.attr('title');
+      if(title == undefined){
+        title = $this.html();
       }
       title += ": ";
       $this.append(Pubtml.Footnote.createFootnote(title + link));
