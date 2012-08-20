@@ -3,11 +3,7 @@ Pubtml.Glossary = {
     glossary = [];
 
     // Find glossary items
-    $('abbr').filter(function(i) {
-      if ($(this).hasClass('noglossary'))
-        return false;
-      return true;
-    }).each(function(k,v) {
+    $('abbr:not(.noglossary)').each(function(k,v) {
       dg = $(this).first().attr("title");
       if (dg) {
         txt = $(this).first().text();

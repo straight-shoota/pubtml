@@ -18,13 +18,12 @@ Pubtml.Footnote = {
         return;
       }
 
-      var link = '<a href="' + href + '" class="here">' + href + '</a>'
       var title = $this.attr('title');
       if(title == undefined){
         title = $this.html();
       }
-      title += ": ";
-      $this.append(Pubtml.Footnote.createFootnote(title + link));
+      var link = '<a href="' + href + '">' + title + '</a>'
+      $this.append(Pubtml.Footnote.createFootnote(link));
       $this.replaceWith($this.html());
     });
     if(Pubtml.PRINT) Log.info('js: replaced external links with footnotes');

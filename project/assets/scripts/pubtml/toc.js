@@ -9,21 +9,35 @@ Pubtml.Toc = {
   createOutline: function(){
     var Toc = function(elem){
       this.depth = 0;
-      this.level = 0
+      this.level = 0;
       if(elem != null){
         this.level = +elem.tagName.substr(1);
       }
       this.elem = elem;
-      this.sectionNumber = []
+      this.sectionNumber = [];
       this.parent = null;
       this.children = [];
+      this.counter = 0;
+      this.nonumber = false;
+      this.appendix = false;
+      this.appendixCounter = 0;
+
       this.add = function(item){
         this.children.push(item);
         item.depth = this.depth + 1;
         item.parent = this;
-        if(! $(this.elem).hasClass('nonumber')){
-          item.sectionNumber = this.sectionNumber.slice()
-          item.sectionNumber.push(this.children.length)
+        if(! item.nonumber){
+          var number;
+          if(! item.appendix){
+            number = ++this.counter
+          }else{
+            number = String.fromCharCode(65 + (this.appendixCounter));
+            this.appendixCounter++
+          }
+          if(! this.appendix){
+            item.sectionNumber = this.sectionNumber.slice() // clones array
+          }
+          item.sectionNumber.push(number)
         }
       }
       this.getSectionNumber = function(){
@@ -44,57 +58,58 @@ Pubtml.Toc = {
       }
     }
 
-    var hash = function(s){
-      if (typeof(s) == 'number' && s === parseInt(s, 10)){
-        s = Array(s + 1).join('x');
-      }
-      return s.replace(/[xy]/g, function(c) {
-        var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
-        return v.toString(16);
-      });
-    }
-
     var root = new Toc(null, null);
     var lastItem = root;
     $("h1,h2,h3,h4,h5,h6").not(".notoc").filter(function(){
       return $(this).closest('.titlepage').length == 0
     }).each(function() {
       if($(this).attr('id') == undefined){
-        var name = $(this).text().toLowerCase().replace(/[^a-z0-9_]+/g, '-').replace(/[-_]+/g, '-').replace(/^-+|-+$/g, '')
-        id = name;
-        if($('#'+id).length > 0){
-          id = name.length > 0 ? name + "-" + hash(5) : hash(5);
-        }
-        $(this).attr('id', id);
+        Pubtml.makeId(this);
       }
       var item = new Toc(this);
-
+      if($(this).hasClass('nonumber')){
+        item.nonumber = true
+      }
+      if($(this).hasClass('appendix') || $(this).closest('.appendix').length > 0){
+        item.appendix = true;
+        //root.add(item);
+      }
       while(item.level <= lastItem.level && lastItem.parent != null){
         lastItem = lastItem.parent
       }
       lastItem.add(item)
 
-      $(this).attr('data-section-number', item.getSectionNumber());
-      lastItem = item
+
+      if(! item.nonumber) {
+        $(this).attr('data-section-number', item.getSectionNumber());
+      }
+      lastItem = item;
     });
 
     console.log(root);
     var html = '<ol class="toc">'
-    root.walk(function(toc){
-      if(toc.parent == null){
+    root.walk(function(item){
+      if(item.parent == null){
         return;
       }
       html += "<li>";
-      html += '<a href="#' + $(toc.elem).attr('id') + '" data-section-number="' + toc.getSectionNumber() + '">' + $(toc.elem).html() + '</a>'
-      console.log(new Array(toc.depth).join("  ") + " " + toc.getSectionNumber() + " " + $(toc.elem).text())
-      if(toc.children.length > 0){
+      html += '<a href="#' + $(item.elem).attr('id') + '"'
+      if(! item.nonumber) {
+        html += ' data-section-number="' + item.getSectionNumber() + '"';
+      }
+      if(item.appendix) {
+        html += ' class="appendix"';
+      }
+      html += '>' + $(item.elem).html() + '</a>'
+      console.log(new Array(item.depth).join("  ") + " " + item.getSectionNumber() + " " + $(item.elem).text())
+      if(item.children.length > 0){
         html += "<ol>"
       }
-    }, function(toc){
-      if(toc.parent == null){
+    }, function(item){
+      if(item.parent == null){
         return;
       }
-      if(toc.children.length > 0){
+      if(item.children.length > 0){
         html += "</ol>"
       }
       html += "</li>"
