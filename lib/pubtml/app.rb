@@ -93,6 +93,7 @@ module Pubtml
       def load_doc
         return @doc if not @doc.nil?
         config = YAML.load_file('config/pubtml.yml')
+
         @doc = Pubtml::Document.new config
 
         Pubtml::App.source_root @doc[:default_project_path]
@@ -100,4 +101,3 @@ module Pubtml
     end
   end
 end
-

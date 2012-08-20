@@ -23,7 +23,8 @@ module Pubtml
           end
           if File.file? file
             puts "reading #{file}..."
-            s << render(file, Pubtml::Markup.load(file))
+            x = render(file, Pubtml::Markup.load(file))
+            s << x
           end
         end
       end
@@ -58,7 +59,7 @@ module Pubtml
     def render(file, content = nil)
       if content.nil? then
         puts "rendering #{file}...\n"
-        content = File.read(file)
+        content = File.read(file).force_encoding Encoding::UTF_8
       end
 
       erb = ERB.new(content)

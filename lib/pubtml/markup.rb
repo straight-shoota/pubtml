@@ -18,10 +18,11 @@ module Pubtml
       end
 
       def load file
-        File.read(file)
+        s = File.read(file)
+        s.encode Encoding::UTF_8
       end
       def supports? file
-        puts inspect
+        #puts inspect
         supported.include? ext file
       end
     end

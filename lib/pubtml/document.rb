@@ -10,6 +10,7 @@ module Pubtml
 
     def merge!(data)
       data.each do |key, value|
+        value.encode! Encoding::UTF_8 if value.is_a? String
         self[key.to_sym] = value
       end
     end
@@ -64,6 +65,7 @@ module Pubtml
       {
         :title          => 'Pubtml',
         :language       => 'en',
+        :author          => '<em>N.N.</em>',
         :default_build  => 'html',
         :project_path   => Dir.pwd,
         :default_project_path => File.expand_path('../../../project', __FILE__),
