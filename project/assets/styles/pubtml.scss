@@ -17,6 +17,7 @@
 @import "pubtml/page";
 @import "pubtml/quote";
 @import "pubtml/ref";
+@import "pubtml/table";
 @import "pubtml/toc";
 
 .chapter, .appendix {
@@ -49,7 +50,7 @@ p {
 }
 
 p + p {
-  text-indent: 1.5rem;
+  text-indent: rem(1.5);
   margin-top: -$line-height;
 
   @media print {
@@ -61,4 +62,9 @@ p + p {
 
 caption {
   font-style: italic;
+}
+
+abbr {
+  text-decoration: none;
+  border: none;
 }

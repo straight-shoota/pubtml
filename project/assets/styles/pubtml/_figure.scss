@@ -1,10 +1,12 @@
 body {
-  counter-reset: figure example table;
+  counter-reset: figure;
+}
+html {
+  counter-reset: example;
 }
 figure, .figure {
-  margin: 1rem 0;
+  margin: rem(1) 0;
   display: block;
-  counter-increment: figure;
   page-break-inside: avoid;
   /*text-align: center;
 
@@ -12,22 +14,30 @@ figure, .figure {
     text-align: left;
   }*/
 
+
   figcaption, .figcaption {
     text-align:center;
-    font-size: .9rem;
-    margin: 0 2rem;
-
-    &::before {
-      content: t("Figure") " " counter(figure)": ";
+    font-size: rem(.9);
+    margin: 0 rem(2);
+    &::before{
       font-weight: bold;
     }
   }
+
+  &:not(.example) {
+    counter-increment: figure;
+    figcaption::before {
+      content: t("Figure") " " counter(figure)": ";
+    }
+  }
   &.example {
+    counter-increment: example;
     figcaption::before{
       content: t("Example") " " counter(example)": ";
     }
   }
   &.table {
+    counter-increment: table;
     figcaption::before{
       content: t("Table") " " counter(table)": ";
     }

@@ -1,12 +1,14 @@
 // colors
 $border-color: #ddd !default;
+$color: black;
 
 // font
-$font-size: 11pt !default;
-$font-size-screen: 20px !default;
+$font-size: 12pt !default;
+//$font-size-screen: 20px !default;
+$font-size-screen: 17px !default;
 $font-size-mono: 10pt !default;
-$font-size-mono-screen: 17px !default;
-$line-height: 1.5rem !default;
+$font-size-mono-screen: $font-size-mono * $font-size-screen / $font-size !default;
+$line-height: rem(1.5) !default;
 $font-base: serif !default;
 $font-base-screen: $font-base !default;
 $font-mono: monospace !default;

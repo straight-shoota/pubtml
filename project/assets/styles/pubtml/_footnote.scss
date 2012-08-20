@@ -1,14 +1,16 @@
 @mixin footnote-link {
+  text-decoration: none;
   &:not(.here)::after, &.here {
-    font-size: .9em;
+    font-size: .8em;
     @include hyphens(none);
     font-family: monospace;
     word-wrap: break-word;
     word-break: break-all; // shouldn't be necessary, but chrome requires this to be set too
   }
-  &:not(.here)::after {
-    content: " [" attr(href) "]";
-    font-size: .8em;
+  &:not(.here) {
+    &::after {
+      content: " [" attr(href) "]";
+    }
   }
 }
 @mixin footnote($counter: footnote) {
@@ -17,7 +19,8 @@
   font-family: $font-footnote;
   footnote-style-position: outside;
   font-style: normal;
-  font-size: .8em;
+  font-size: rem(.8);
+  color: $color;
 
   &::footnote-call,
   &::footnote-marker  {
@@ -29,9 +32,10 @@
   &::footnote-call {
     vertical-align: super;
     line-height: none;
+    color: inherit;
   }
   &::footnote-marker {
-    padding-right: .2em;
+    padding-right: rem(.2);
     line-height: $line-height;
     //footnote-style-position: inside;
   }
@@ -48,21 +52,23 @@ sup, ref, .footnote {
   @include footnote;
   @media screen {
     float: right;
-    $width: 20em;
-    $offset: 6em;
+    $width: rem(20);
+    $offset: rem(8);
     margin-right: - ($width + $offset);
     width: $width;
     margin-left: $offset;
     word-wrap: break-word;
     clear: right;
     border-top: 2px solid #EEE;
+    background: rgba(253, 253, 253, .8);
+    padding: .3em;
   }
 }
 @page {
   @footnotes {
     border-top: solid $border-color thin;
     border-clip: 100px 100px;
-    padding: 0.3em 0;
-    margin-top: 0.6em;
+    padding: rem(.3) 0 rem(.3) 2em;
+    margin-top: rem(0.6);
   }
 }

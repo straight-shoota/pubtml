@@ -7,21 +7,29 @@ code, tt, pre {
   font-family: $font-mono;
   //line-height: 1.4;
   border: 1px solid #dedede;
-  padding: .1rem .2rem;
+  padding: rem(.1) rem(.2);
 
-  border-radius: .2rem;
+  border-radius: rem(.2);
 }
-code, tt {
+code, tt, html code[class*="language-"] {
+  white-space: normal;
 }
 
 pre {
   overflow: auto;
-  padding: .3rem;
+  padding: rem(.3);
   margin: 1ex 0;
   text-align: left;
-  border-radius: .2rem;
-  &, &[class*="language-"] {
+  border-radius: rem(.2);
+  white-space: pre;
+  html &, html &[class*="language-"], code[class*="language-"] {
     white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+
+    .token.tag, .token.property, .token.number, .token.boolean {
+      word-break: normal;
+    }
   }
   @include hyphens(none);
 
@@ -29,6 +37,7 @@ pre {
     background-color: transparent;
     border: none;
     padding: 0;
+    white-space: pre-wrap;
   }
   & > code {
     display: block;

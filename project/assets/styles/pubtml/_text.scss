@@ -1,4 +1,29 @@
+$lang: 'en' !default;
+
 @function t($t) {
+  @if $lang == 'de' {
+    @if $t == "Figure" {
+      @return "Abbildung";
+    }
+    @if $t == "Example" {
+      @return 'Beispiel';
+    }
+    @if $t == "Table" {
+      @return 'Tabelle';
+    }
+    @if $t == "Chapter" {
+      @return 'Kapitel';
+    }
+    @if $t == "page" {
+      @return 'Seite';
+    }
+    @if $t == "on page" {
+      @return 'auf Seite';
+    }
+    @if $t == "Section" {
+      @return 'Abschnitt';
+    }
+  }
   @return $t;
 }
 

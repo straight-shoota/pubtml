@@ -1,10 +1,10 @@
 ol.toc {
   counter-reset: tocheadertwo tocheaderthree tocheaderfour tocappendix;
+  page-break-before: avoid;
 
   & > li {
     font-weight: bold;
-    margin-bottom: .5rem;
-    page-break-after: avoid;
+    margin-bottom: rem(.5);
   }
 
   a {
@@ -14,9 +14,7 @@ ol.toc {
       content: leader(". ") target-counter(attr(href), page);
       font-style: normal;
     }
-    &[data-section-number]::before {
-      content: attr(data-section-number) ". ";
-    }
+    page-break-after: avoid;
   }
 
   &, ol {
@@ -25,55 +23,24 @@ ol.toc {
     padding: 0;
   }
   ol {
-    margin-left: 1rem;
+    margin-left: rem(1);
     font-weight: normal;
   }
-
-  /*& > li {
-    counter-reset: tocheaderthree, tocheaderfour;
-    &::before {
-      /*content: counters(item, ".") ".  ";*
-      counter-increment: tocheadertwo;
-      content: counter(tocheadertwo) ". ";
-    }
-    &.nonumber::before {
-      counter-increment: tocheadertwo 0;
-      content: "";
-    }
-    ol > li {
-      counter-reset: tocheaderfour;
-      &::before {
-        counter-increment: tocheaderthree;
-        content: counter(tocheadertwo) "." counter(tocheaderthree) ". ";
-      }
-      ol > li {
-        &::before{
-          counter-increment: tocheaderfour;
-          content: counter(tocheadertwo) "." counter(tocheaderthree) "." counter(tocheaderfour) ". ";
-        }
-
-        li {
-          margin-left: 3ex; /* Make up for no section numbers *
-          &::before{
-            content: "";
-          }
-        }
-      }
-    }
-    &.appendix {
-      &::before {
-        counter-increment: tocappendix;
-        content: "A" counter(tocappendix) ". ";
-      }
-      ol > li::before {
-        content: "A" counter(tocappendix) "." counter(tocheaderthree) ". ";
-      }
-    }
-  }*/
+  .appendix + ol {
+    display: none;
+  }
 }
 
-h1, h2, h3, h4, h5, h6 {
-  &[data-section-number]::before {
-    content: attr(data-section-number) ". ";
+h1, h2, h3, h4, h5, h6, ol.toc a {
+  &[data-section-number] {
+    &::before {
+      content: attr(data-section-number) ". ";
+    }
+    &.appendix::before {
+      content: attr(data-section-number) " ";
+    }
   }
+}
+section.appendix [data-section-number]:not(h1)::before {
+  content: "";
 }

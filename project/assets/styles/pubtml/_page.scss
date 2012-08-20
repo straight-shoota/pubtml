@@ -1,36 +1,52 @@
 h1 {
-  string-set: header content();
+  string-set: header t("Chapter") " " attr(data-section-number) ": " content();
+}
+
+title {
+  string-set: doctitle content();
 }
 
 @page {
   size: A4 portrait;
   margin: 2cm 5cm 2cm 2cm;
 }
-  @page:right {
-    @top-right {
-      content: string(header, first);
-      font-family: $font-headline;
-    }
+@page:right {
+  margin: 3.5cm 2cm 3cm 3cm;
+  @top-right {
+    content: string(header, first);
+    font-family: $font-headline;
   }
-  @page:left {
-    @bottom-left {
-      content: counter(page);
-      font-family: $font-headline;
-    }
+  @bottom-right {
+    content: counter(page);
+    font-family: $font-headline;
+    font-size: rem(.8);
   }
-
+}
+@page:left {
+  margin: 3.5cm 3cm 3cm 2cm;
+  @top-left {
+    content: string(doctitle);
+    font-family: $font-headline;
+  }
+  @bottom-left {
+    content: counter(page);
+    font-family: $font-headline;
+    font-size: rem(.8);
+  }
+}
 
 html {
   margin: 0;
 
   @media screen {
     background-color: #AAA;
+    zoom: 1.1;
     @include background(linear-gradient(left, #BBB, #999, #BBB));
     @include background(linear-gradient(left, #FFF, #EEE, #FFF));
   }
 
   line-height: 1.5;
-  color: black;
+  color: $color;
   background: none;
   font-size: $font-size;
   @include hyphens(auto);
@@ -53,15 +69,19 @@ body {
     width: 21cm;
     margin: 2cm auto;
     padding: 2cm;
+    padding: 3.5cm 3cm 3cm 2cm;
+    box-sizing: border-box;
+
     background-color: #FFF;
-    box-shadow: 0 0 3rem #666;
-    box-shadow: 0 0 3rem #CCC;
+    box-shadow: 0 0 rem(3) #666;
+    box-shadow: 0 0 rem(3) #CCC;
     border: 1px solid #888888;
     border: 1px solid #CCC;
   }
 }
 
 .titlepage,
+.page,
 #toc {
   page-break-after: always;
   page-break-before: always;
@@ -69,20 +89,30 @@ body {
 
 .titlepage {
   page: blank;
+
   h1, h2, h3, h4, h5, h6 {
     text-align: center;
   }
   hgroup {
+    &.title {
+      margin: 3cm .5cm 1cm;
+    }
     &, > p {
       text-align: center;
     }
-    margin-bottom: 2rem;
+    margin-bottom: rem(2);
+  }
+  .bottom {
+    margin-top: 10cm;
+  }
+  .footnote {
+    display: none;
   }
   p {
-    font-size: 1.4rem;
+    /*font-size: rem(1.4);*/
   }
   @media screen {
-    padding-bottom: 5rem;
+    padding-bottom: rem(5);
   }
 }
 
@@ -94,4 +124,8 @@ body {
 @page blank :right {
   @top-right { content: normal }
   @bottom-right { content: normal }
+}
+
+.appendix {
+  page-break-before: always;
 }

@@ -4,3 +4,7 @@
   -ms-hyphens: $val;
   hyphens: $val;
 }
+
+@function rem($val){
+  @return $val * $font-size
+}
