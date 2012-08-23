@@ -30,19 +30,26 @@ Pubtml.task("insertTbody", function(){
   })
 })
 
-Pubtml.makeId = function(elem){
-  var name = $(elem).text().toLowerCase().replace(/[^a-z0-9_]+/g, '-').replace(/[-_]+/g, '-').replace(/^-+|-+$/g, '')
-  if(name.length > 0){
-    if($('#' + name).length == 0){
+Pubtml.makeId = function(elem, name){
+  elem = $(elem)
+  if(elem.attr('id')) return; // not touching existing Ids!
+
+  if(!name){
+    name = elem.text();
+  }
+  var id = name.toLowerCase().replace(/[^\w\-]+/g, '-').replace(/[-_]+/g, '-').replace(/^-|-$/g, '')
+  if(id.length > 0){
+    try{
+    if($('#' + id).length != 0){
       //check if id is not already taken
-      id = name;
-    }else{
-      id = name + "-" + Pubtml.hash(5);
+      id += "-" + Pubtml.hash(5);
+    }}catch(e){
+      console.log("id: ", id)
     }
   }else{
     id = Pubtml.hash(5);
   }
-  $(elem).attr('id', id);
+  elem.attr('id', id);
   return id;
 }
 
