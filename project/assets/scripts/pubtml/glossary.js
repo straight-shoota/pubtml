@@ -1,31 +1,42 @@
 Pubtml.Glossary = {
   createGlossary : function() {
-    glossary = [];
+    var Glossary = function(){
+      this.terms = [];
+      this.map = {}
+    }
+    $.extend(Glossary.prototype, {
+      add: function(term, desc){
+        if(! this.map[term] || this.map[term] !== desc){
+          this.terms.push([term, desc]);
+        }
+      },
+      sort: function(){
+        this.terms.sort(function(a,b) {
+          x = a[0];
+          y = b[0];
+          return x < y ? -1 : (x > y ? 1 : 0);
+        })
+      }
+    })
+    var glossary = Pubtml.Glossary.Glossary = new Glossary();
 
     // Find glossary items
-    $('abbr:not(.noglossary)').each(function(k,v) {
-      dg = $(this).first().attr("title");
-      if (dg) {
-        txt = $(this).first().text();
-        glossary.push([txt,dg]);
-        $(this).addClass("inglossary");
-      }
+    $('abbr:not(.noglossary)[title]').each(function(k,v) {
+      glossary.add($(this).text(), $(this).attr('title'));
+      $(this).addClass("inglossary");
     });
 
     // Sort glossary by abbrevation
-    glossary.sort(function(a,b) {
-      x = a[0];
-      y = b[0];
-      return x < y ? -1 : (x > y ? 1 : 0);
-    });
+    glossary.sort()
 
     // And insert
     $('#glossary').each(function(i) {
       $(this).append("<dl></dl>");
-      root = $(this).children().filter('dl');
-      $.each(glossary, function(k,v) {
-        root.append("<dt>"+v[0]+"<dd>"+v[1]);
+      var root = $(this).children().filter('dl');
+      $.each(glossary.terms, function(k,v) {
+        root.append("<dt>"+v[0]+"</dt><dd>"+v[1] +"</dd>");
       });
     });
   }
 }
+Pubtml.task("createGlossary", Pubtml.Glossary.createGlossary)
