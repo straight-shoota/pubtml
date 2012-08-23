@@ -1,8 +1,8 @@
 /**
- * Pubtml Module: Footnote
+ * Pubtml Module: TOC
  *
  * @file pubtml/toc
- * @require pubtml, outliner
+ * @require pubtml
  */
 
 Pubtml.Toc = {
@@ -60,11 +60,12 @@ Pubtml.Toc = {
 
     var root = new Toc(null, null);
     var lastItem = root;
-    $("h1,h2,h3,h4,h5,h6").not(".notoc").filter(function(){
+    $("h1,h2,h3").not(".notoc").filter(function(){
       return $(this).closest('.titlepage').length == 0
     }).each(function() {
       if($(this).attr('id') == undefined){
-        Pubtml.makeId(this);
+        //Pubtml.makeId(this);
+        Pubtml.makeId($(this))
       }
       var item = new Toc(this);
       if($(this).hasClass('nonumber')){
@@ -82,6 +83,8 @@ Pubtml.Toc = {
 
       if(! item.nonumber) {
         $(this).attr('data-section-number', item.getSectionNumber());
+        $(this).before('<a id="' + $(this).attr('id') + '"/>')
+        Pubtml.makeId($(this), item.getSectionNumber() + '-' + $(this).attr('id'))
       }
       lastItem = item;
     });
