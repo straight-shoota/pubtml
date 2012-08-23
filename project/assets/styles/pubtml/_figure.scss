@@ -43,3 +43,10 @@ figure, .figure {
     }
   }
 }
+
+.html-frame {
+  margin: rem(.5);
+  padding: rem(.5);
+  border: thin solid black;
+  font-family: sans-serif;
+}

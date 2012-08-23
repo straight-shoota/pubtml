@@ -23,12 +23,16 @@ pre {
   border-radius: rem(.2);
   white-space: pre;
   html &, html &[class*="language-"], code[class*="language-"] {
+    white-space: pre;
     white-space: pre-wrap;
     word-wrap: break-word;
     word-break: break-all;
 
     .token.tag, .token.property, .token.number, .token.boolean {
       word-break: normal;
+    }
+    body.print & {
+      white-space: pre-wrap;
     }
   }
   @include hyphens(none);

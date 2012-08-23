@@ -1,30 +1,72 @@
 table {
   border-spacing: 0;
   border-collapse: collapse;
+
+  figure.table & {
+  }
   &.def {
-    > tbody {
-      > tr {
-        > td, > th {
-          border-bottom: thin solid #ddd;
-          padding-bottom: .5em;
-          vertical-align: top;
+    tbody th {
+      text-align: right;
+      padding-right: .5em;
+    }
+    tbody tr {
+      page-break-after: auto;
+    }
+  }
+
+  td, th {
+    border-bottom: thin solid #ddd;
+    padding: .2em .5em .5em;
+    vertical-align: top;
+  }
+  tbody tr.rowheader {
+    td, th {
+      border-bottom: none;
+    }
+    th {
+      text-align: left;
+    }
+  }
+
+  tfoot {
+    td, th {
+      border-bottom: none;
+      border-top: .3em solid #EEE;
+    }
+  }
+
+  &.data {
+    thead {
+      th, td {
+        text-align: center;
+        &:first-child{
+          text-align: left;
         }
-        > th {
-          text-align: right;
-          padding-right: .5em;
-        }
-        &.rowheader {
-          > td, > th {
-            border-bottom: none;
-          }
-          > th {
-            text-align: left;
-          }
-        }
+      }
+    }
+    td, th {
+      border-left: thin dashed #DDD;
+      padding: rem(.5);
+      &:first-child{
+        border-left: none;
+      }
+      &.aux {
+        border-left: none;
       }
     }
   }
 }
+.number, .percent {
+  text-align: right;
+}
+.aux {
+  color: #555;
+  font-size: .9em;
+}
+.center {
+  text-align: center;
+}
+
 figure table {
   width: 100%;
 }

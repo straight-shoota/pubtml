@@ -8,16 +8,27 @@ a {
   &[href^='#']::after {
     content: " (" t("page") " " target-counter(attr(href), page) ")";
   }
-  &.pageref::after {
-    content: " " t("on page") " " target-counter(attr(href), page);
+  /*&.pageref::after {
+    content: " " t("page") " " target-counter(attr(href), page);
   }
-  &.chapref::before { content: " " t("Chapter") " " target-counter(attr(href), chapter) ", "; }
-  &.figref { content: " " t("Figure") " " target-counter(attr(href), figure); }
+  /*&.chapref::before { content: " " t("Chapter") " " target-counter(attr(href), chapter) ", "; }
+  &.figref:; { content: " " t("Figure") " " target-counter(attr(href), figure); }
   &.exampleref { content: " " t("Example") " " target-counter(attr(href), example); }
   &.tableref { content: " " t("Table") " " target-counter(attr(href), table); }
   &.sectionref {
     content: " " t("Section") " " target-text(attr(href), content(before));
+  }*/
+  &.chapref, &.figref, &.exampleref, &.tableref, &.sectionref {
+    &::after {
+      content: ' XX';
+    }
   }
+
+  &.chapref::after { content: " " target-counter(attr(href), chapter); }
+  &.figref::after { content: " " target-counter(attr(href), figure); }
+  &.exampleref::after { content: " " target-counter(attr(href), example); }
+  &.tableref::after { content: " " target-counter(attr(href), table); }
+  &.sectionref::after { content: " " target-text(attr(href), content(before)); }
     /*&:not([href^='#'])::after{
       @include footnote;
       content: attr(title) ": " attr(href);
@@ -26,6 +37,23 @@ a {
   img {
     border: none;
   }
+}
+.listings dt a {
+  &::after {
+    content: leader(". ") t("page") " " target-counter(attr(href), page);
+  }
+  &::before {
+    content: t("Figure") ": ";
+    content: t("Figure") " " target-counter(attr(href), figure) ": ";
+  }
+}
+.tablelistings dt a::before{
+  content: t("Table") ": ";
+  content: t("Table") " " target-counter(attr(href), table) ": ";
+}
+.examplelistings dt a::before{
+  content: t("Example") ": ";
+  content: t("Example") " " target-counter(attr(href), example) ": ";
 }
 
 /*.footnote a:not([href^='#'])::after{
