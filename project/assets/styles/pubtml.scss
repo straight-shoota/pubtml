@@ -68,3 +68,16 @@ abbr {
   text-decoration: none;
   border: none;
 }
+
+dl {
+  dt, dd {
+    margin: 0;
+    padding: 0;
+  }
+  dt {
+    font-weight: bold;
+  }
+  dd {
+    margin-left: rem(2);
+  }
+}
