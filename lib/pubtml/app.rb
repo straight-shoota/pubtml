@@ -8,6 +8,7 @@ require 'fileutils'
 require 'pubtml'
 require 'pubtml/document'
 require 'pubtml/builder'
+require 'pubtml/version'
 
 module Pubtml
   class App < Thor
@@ -83,10 +84,26 @@ module Pubtml
       end
     end
 
+    desc 'project_assets', 'Project assets'
+    def project_assets
+      load_doc
+
+      src = File.join(@doc[:project_path], 'assets')
+      dest = File.join(@doc[:build_path], 'html')
+
+      directory src, dest
+      ##Dir[File.expand_path(] do |f|
+       # puts f
+       # copy_file f,
+      #end
+    end
+
     desc 'assets', 'Create assets'
     def assets
       scripts
       styles
+
+      project_assets
     end
 
     no_tasks do
