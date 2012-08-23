@@ -7,22 +7,28 @@
 
 Pubtml.Listings = {
   createListings: function(){
-    var figureListings = [];
-    var tableListings = [];
+    var listings = {'figure': [], 'table': [], 'example': []}
     $('figure').each(function(){
-      var id = $(this).attr('id');
+      $this = $(this);
+      var id = $this.attr('id');
+      var useid = true;
       if(id == undefined){
-        id = Pubtml.makeId(this);
+        id = Pubtml.makeId($this);
+        useid = false;
       }
-      listing = '<dt><a href="#' + id + '"><span>'+ $(this).attr('id') + '</span></a></dt><dd>' + $(this).find('figcaption').text() + '</dd>'
-      if($(this).hasClass('table')){
-        tableListings.push(listing);
-      }else{
-        figureListings.push(listing);
+      type = 'figure';
+      for(t in listings){
+        if($this.hasClass(t)){
+          type = t;
+        }
       }
-    })
-    $('#abbildungsverzeichnis').after('<dl>' + figureListings.join('') + '</dl>');
-    $('#tabellenverzeichnis').after('<dl>' + tableListings.join('') + '</dl>');
+      listing = '<dt><a href="#' + id + '" class="' + type + '"ref><span>'+ (useid ? $this.attr('id') : '') + '</span></a></dt><dd>' + $this.find('figcaption').html() + '</dd>'
+
+      listings[type].push(listing);
+    });
+    for(type in listings){
+      $('#' + type + 'listings').append('<dl class="listings ' + type + 'listings">' + listings[type].join('') + '</dl>');
+    }
   }
 }
 Pubtml.task("createListings", Pubtml.Listings.createListings)
