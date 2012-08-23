@@ -12,17 +12,19 @@ Pubtml.Footnote = {
       var href = $this.attr('href');
 
       if ($this.text() == href
-        || new RegExp("((https?:)?\/\/)?"+$this.text()).exec(href)){
+        || new RegExp("((https?:)?\/\/)?" + $this.text()).exec(href)){
         // this link shall be shown in the text
         $this.addClass('here');
         return;
       }
 
       var title = $this.attr('title');
+      var clazz = "";
       if(title == undefined){
-        title = $this.html();
+        title = href;
+        clazz = ' class="here"'
       }
-      var link = '<a href="' + href + '">' + title + '</a>'
+      var link = '<a href="' + href + '"' + clazz + '>' + title + '</a>'
       $this.append(Pubtml.Footnote.createFootnote(link));
       $this.replaceWith($this.html());
     });
